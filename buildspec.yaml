@@ -13,14 +13,14 @@ phases:
     commands:
       - echo Building the Docker image...
       - docker build -t microservice-threads .
-      - docker tag microservice-threads:latest 761018853069.dkr.ecr.us-east-1.amazonaws.com/microservice-threads:latest
+      - docker tag microservice-threads:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
     commands:
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions...
-      - printf '[{"name":"%s","imageUri":"%s"}]' "threads" 761018853069.dkr.ecr.us-east-1.amazonaws.com/microservice-threads:latest" > imagedefinitions.json
+      - printf '[{"name":"%s","imageUri":"%s"}]' "threads" "$REPOSITORY_URI:$IMAGE_TAG" > imagedefinitions.json
 
 artifacts:
   files:
